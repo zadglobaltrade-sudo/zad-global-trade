@@ -1,0 +1,550 @@
+---
+// Zad Global Trade - Individual Blog Post Page
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  try {
+    const posts = await getCollection('blog');
+    return posts.map(post => {
+      const slug = post.slug || post.id?.replace('.md', '') || 'unknown';
+      return {
+        params: { slug },
+        props: { post },
+      };
+    });
+  } catch (error) {
+    console.error('Error generating static paths:', error);
+    return [];
+  }
+}
+
+const { post } = Astro.props;
+const { Content } = post;
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{post.data.title} — Zad Global Trade</title>
+  <meta name="description" content={post.data.description} />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --green-dark: #1B4332;
+      --green-mid: #2D6A4F;
+      --gold: #C9963E;
+      --gold-light: #E8B96A;
+      --offwhite: #FAF7F2;
+      --charcoal: #1C1C1C;
+      --grey: #6B6B6B;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--offwhite);
+      color: var(--charcoal);
+    }
+
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+    /* ─── NAVBAR ─── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--green-dark);
+      padding: 0 3rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img { height: 44px; width: auto; }
+
+    .nav-logo span {
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a.active { color: white; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+    .nav-icon { color: rgba(255,255,255,0.7); font-size: 1.1rem; }
+
+    /* ─── POST HERO ─── */
+    .post-hero {
+      background: var(--green-dark);
+      padding: 9rem 3rem 5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .post-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(201,150,62,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .post-category {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .post-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: white;
+      line-height: 1.2;
+      max-width: 800px;
+      margin: 0 auto 1.2rem;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+    }
+
+    .post-meta-divider {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+
+    /* ─── POST IMAGE ─── */
+    .post-image-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      transform: translateY(-2rem);
+    }
+
+    .post-image-wrap img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ─── POST CONTENT ─── */
+    .post-content-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 3rem 6rem;
+    }
+
+    .post-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 600;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .post-back:hover { color: var(--green-dark); }
+
+    /* Markdown content styles */
+    .post-content p {
+      font-size: 0.97rem;
+      color: var(--charcoal);
+      line-height: 1.9;
+      font-weight: 300;
+      margin-bottom: 1.4rem;
+    }
+
+    .post-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--green-dark);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    .post-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--green-dark);
+      margin-top: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .post-content ul, .post-content ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .post-content li {
+      font-size: 0.95rem;
+      color: var(--charcoal);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 0.4rem;
+    }
+
+    .post-content strong {
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    .post-content em {
+      font-style: italic;
+      color: var(--grey);
+    }
+
+    .post-content a {
+      color: var(--gold);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    .post-content a:hover { color: var(--green-dark); }
+
+    .post-content hr {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      margin: 2rem 0;
+    }
+
+    .post-content blockquote {
+      border-left: 3px solid var(--gold);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      background: white;
+    }
+
+    .post-content blockquote p {
+      font-style: italic;
+      color: var(--grey);
+    }
+
+    /* ─── POST FOOTER ─── */
+    .post-footer {
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding-top: 2rem;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .post-footer-author {
+      font-size: 0.8rem;
+      color: var(--grey);
+      font-weight: 300;
+    }
+
+    .post-footer-author strong {
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    .post-back-btn {
+      display: inline-block;
+      border: 1.5px solid var(--green-dark);
+      color: var(--green-dark);
+      padding: 0.6rem 1.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .post-back-btn:hover {
+      background: var(--green-dark);
+      color: white;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--green-dark);
+      padding: 4rem 3rem 0;
+      border-top: 1px solid var(--gold);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+    }
+
+    .footer-brand-name {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      color: white;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 1.4rem;
+    }
+
+    .footer-socials { display: flex; gap: 0.6rem; }
+
+    .footer-social-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .footer-social-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .footer-col-title {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 300;
+    }
+
+    .footer-links a:hover { color: white; }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-contact-icon { color: var(--gold); font-size: 0.85rem; margin-top: 2px; flex-shrink: 0; }
+    .footer-contact-text { font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.5; font-weight: 300; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 1.4rem 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.35); letter-spacing: 0.05em; }
+    .footer-badges { display: flex; gap: 1.5rem; }
+    .footer-badge { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      #navbar { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .post-hero { padding: 7rem 1.2rem 3.5rem; }
+      .post-image-wrap { padding: 0 1.2rem; }
+      .post-image-wrap img { height: 240px; }
+      .post-content-wrap { padding: 2rem 1.2rem 4rem; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/images/logo.png" alt="Zad Global Trade" onerror="this.style.display='none'" />
+        <span>Zad Global Trade</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/certifications">Certifications</a></li>
+        <li><a href="/blog" class="active">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <span class="nav-icon">🌿</span>
+    </div>
+  </nav>
+
+  <!-- POST HERO -->
+  <section class="post-hero">
+    <span class="post-category">{post.data.category}</span>
+    <h1 class="post-title">{post.data.title}</h1>
+    <div class="post-meta">
+      <span>{post.data.author}</span>
+      <span class="post-meta-divider"></span>
+      <span>{post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+    </div>
+  </section>
+
+  <!-- POST IMAGE -->
+  {post.data.image && (
+    <div class="post-image-wrap">
+      <img
+        src={post.data.image}
+        alt={post.data.title}
+        onerror="this.style.display='none'"
+      />
+    </div>
+  )}
+
+  <!-- POST CONTENT -->
+  <div class="post-content-wrap">
+    <a href="/blog" class="post-back">← Back to Blog</a>
+    <div class="post-content">
+      <Content />
+    </div>
+    <div class="post-footer">
+      <span class="post-footer-author">Written by <strong>{post.data.author}</strong></span>
+      <a href="/blog" class="post-back-btn">← All Articles</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-brand-name">Zad Global Trade</span>
+        <p class="footer-tagline">Exporting India's premium agricultural heritage to the global stage with integrity, quality, and precision.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn">🌐</a>
+          <a href="mailto:zadglobaltrade@gmail.com" class="footer-social-btn">✉</a>
+        </div>
+      </div>
+      <div>
+        <span class="footer-col-title">Quick Links</span>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/products">Our Products</a></li>
+          <li><a href="/certifications">Global Certifications</a></li>
+          <li><a href="/blog">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer-col-title">Company</span>
+        <ul class="footer-links">
+          <li><a href="/services">Our Services</a></li>
+          <li><a href="/why-us">Why Source From Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer-col-title">Contact Info</span>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📍</span>
+          <span class="footer-contact-text">Samta Soc Building 5/14, Yamuna Nagar, Nigdi, Pune, Maharashtra, India</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📞</span>
+          <span class="footer-contact-text">+91 97309 05006</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">✉</span>
+          <span class="footer-contact-text">zadglobaltrade@gmail.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Zad Global Trade. All rights reserved.</span>
+      <div class="footer-badges">
+        <span class="footer-badge">Global GAP Certified</span>
+        <span class="footer-badge">APEDA Member</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

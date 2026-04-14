@@ -1,0 +1,870 @@
+---
+// Zad Global Trade - Products Page
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  <title>Products — Zad Global Trade</title>
+  <meta name="description" content="Premium Bhagwa Pomegranates and Grand Naine Bananas exported from Pune, India to UAE, Saudi Arabia, Malaysia, Bangladesh and Indonesia." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --green-dark: #1B4332;
+      --green-mid: #2D6A4F;
+      --gold: #C9963E;
+      --gold-light: #E8B96A;
+      --offwhite: #FAF7F2;
+      --charcoal: #1C1C1C;
+      --grey: #6B6B6B;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--offwhite);
+      color: var(--charcoal);
+    }
+
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+    /* ─── NAVBAR ─── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--green-dark);
+      padding: 0 3rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img { height: 44px; width: auto; }
+
+    .nav-logo span {
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a.active { color: white; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+    .nav-icon { color: rgba(255,255,255,0.7); font-size: 1.1rem; }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      background: var(--green-dark);
+      padding: 9rem 3rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(201,150,62,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 1.2rem;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .page-hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+    }
+
+    /* ─── PRODUCT OVERVIEW CARDS ─── */
+    .overview-section {
+      padding: 6rem 3rem;
+      background: var(--offwhite);
+    }
+
+    .overview-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .overview-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: var(--green-dark);
+      line-height: 1.2;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: white;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .product-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+    }
+
+    .product-card.placeholder {
+      border: 2px dashed rgba(0,0,0,0.1);
+      border-bottom: 3px dashed rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      background: white;
+      cursor: default;
+    }
+
+    .product-card.placeholder:hover {
+      transform: none;
+      border-color: rgba(0,0,0,0.1);
+    }
+
+    .placeholder-icon {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+      opacity: 0.25;
+    }
+
+    .placeholder-text {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey);
+      opacity: 0.5;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-card-body {
+      padding: 1.2rem 1.2rem 1.4rem;
+    }
+
+    .product-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--green-dark);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .product-card-desc {
+      font-size: 0.8rem;
+      color: var(--grey);
+      line-height: 1.5;
+      font-weight: 300;
+      margin-bottom: 0.8rem;
+    }
+
+    .product-card-link {
+      font-size: 0.75rem;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 1px;
+      background: rgba(0,0,0,0.08);
+    }
+
+    /* ─── PRODUCT DETAIL SECTIONS ─── */
+    .product-detail {
+      padding: 6rem 3rem;
+      scroll-margin-top: 80px;
+    }
+
+    .product-detail:nth-of-type(odd) {
+      background: var(--offwhite);
+    }
+
+    .product-detail:nth-of-type(even) {
+      background: white;
+    }
+
+    .detail-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .detail-image-wrap {
+      position: relative;
+    }
+
+    .detail-image-wrap img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .detail-image-placeholder {
+      width: 100%;
+      height: 480px;
+      background: var(--green-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+
+    .detail-badge {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      background: var(--gold);
+      color: white;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .detail-text { padding-top: 0.5rem; }
+
+    .detail-variety {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .detail-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      color: var(--green-dark);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .detail-desc {
+      font-size: 0.92rem;
+      color: var(--grey);
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    /* Specs table */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    .specs-table tr {
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .specs-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .specs-table td {
+      padding: 0.7rem 0;
+      font-size: 0.85rem;
+      vertical-align: top;
+    }
+
+    .specs-table td:first-child {
+      color: var(--green-dark);
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      width: 40%;
+    }
+
+    .specs-table td:last-child {
+      color: var(--grey);
+      font-weight: 300;
+    }
+
+    .detail-cta {
+      display: inline-block;
+      background: var(--green-dark);
+      color: white;
+      padding: 0.9rem 2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .detail-cta:hover { background: var(--green-mid); }
+
+    /* ─── CTA BANNER ─── */
+    .cta-banner {
+      background: var(--green-dark);
+      padding: 5rem 3rem;
+      text-align: center;
+    }
+
+    .cta-banner-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .cta-banner p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: white;
+      padding: 0.9rem 2.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-gold:hover { background: var(--gold-light); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--green-dark);
+      padding: 4rem 3rem 0;
+      border-top: 1px solid var(--gold);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+    }
+
+    .footer-brand-name {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      color: white;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 1.4rem;
+    }
+
+    .footer-socials { display: flex; gap: 0.6rem; }
+
+    .footer-social-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .footer-social-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .footer-col-title {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 300;
+    }
+
+    .footer-links a:hover { color: white; }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-contact-icon { color: var(--gold); font-size: 0.85rem; margin-top: 2px; flex-shrink: 0; }
+    .footer-contact-text { font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.5; font-weight: 300; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 1.4rem 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.35); letter-spacing: 0.05em; }
+    .footer-badges { display: flex; gap: 1.5rem; }
+    .footer-badge { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      #navbar { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .overview-section { padding: 4rem 1.2rem; }
+      .product-detail { padding: 4rem 1.2rem; }
+      .detail-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .cards-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .page-hero { padding: 7rem 1.2rem 3.5rem; }
+      .cta-banner { padding: 4rem 1.2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <!-- REPLACE: Your logo at /public/images/logo.png -->
+        <img src="/images/logo.png" alt="Zad Global Trade" onerror="this.style.display='none'" />
+        <span>Zad Global Trade</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/products" class="active">Products</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/certifications">Certifications</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <span class="nav-icon">🌿</span>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       PAGE HERO
+  ═══════════════════════════════════════ -->
+  <section class="page-hero">
+    <span class="page-hero-label">Our Products</span>
+    <h1>The Harvest Portfolio</h1>
+    <p class="page-hero-sub">Premium Indian produce, export-ready and globally trusted</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       PRODUCT OVERVIEW CARDS
+  ═══════════════════════════════════════ -->
+  <section class="overview-section">
+    <div class="overview-inner">
+
+      <div class="overview-header">
+        <span class="section-label">What We Export</span>
+        <h2 class="section-title">Sourced from India's Finest Farms</h2>
+      </div>
+
+      <div class="cards-grid">
+
+        <!-- Card 1: Pomegranates -->
+        <a href="#pomegranates" class="product-card">
+          <!-- REPLACE: Add to /public/images/product-pomegranate.jpg -->
+          <img
+            src="/images/product-pomegranate.jpg"
+            alt="Bhagwa Pomegranates"
+            onerror="this.style.background='#8B1A1A'; this.style.display='block'; this.style.height='240px'; this.removeAttribute('src')"
+          />
+          <div class="product-card-body">
+            <span class="product-card-name">Bhagwa Pomegranates</span>
+            <p class="product-card-desc">Deep red, sweet and export-grade from Maharashtra.</p>
+            <span class="product-card-link">View Details →</span>
+          </div>
+        </a>
+
+        <!-- Card 2: Bananas -->
+        <a href="#bananas" class="product-card">
+          <!-- REPLACE: Add to /public/images/product-banana.jpg -->
+          <img
+            src="/images/product-banana.jpg"
+            alt="Grand Naine Bananas"
+            onerror="this.style.background='#7A6A00'; this.style.display='block'; this.style.height='240px'; this.removeAttribute('src')"
+          />
+          <div class="product-card-body">
+            <span class="product-card-name">Grand Naine Bananas</span>
+            <p class="product-card-desc">Premium Cavendish variety, harvested for global transit.</p>
+            <span class="product-card-link">View Details →</span>
+          </div>
+        </a>
+
+        <!-- Placeholder 3 -->
+        <div class="product-card placeholder">
+          <span class="placeholder-icon">🌾</span>
+          <span class="placeholder-text">Coming Soon</span>
+        </div>
+
+        <!-- Placeholder 4 -->
+        <div class="product-card placeholder">
+          <span class="placeholder-icon">🌾</span>
+          <span class="placeholder-text">Coming Soon</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════
+       PRODUCT DETAIL — POMEGRANATES
+  ═══════════════════════════════════════ -->
+  <section class="product-detail" id="pomegranates">
+    <div class="detail-inner">
+      <div class="detail-grid">
+
+        <div class="detail-image-wrap">
+          <!-- REPLACE: Add to /public/images/detail-pomegranate.jpg -->
+          <img
+            src="/images/detail-pomegranate.jpg"
+            alt="Bhagwa Pomegranates — Zad Global Trade"
+            onerror="this.outerHTML='<div class=\'detail-image-placeholder\'>Add detail-pomegranate.jpg</div>'"
+          />
+          <span class="detail-badge">Export Ready</span>
+        </div>
+
+        <div class="detail-text">
+          <span class="detail-variety">Punica Granatum — Bhagwa Variety</span>
+          <h2 class="detail-title">Bhagwa Pomegranates</h2>
+          <p class="detail-desc">Bhagwa is India's most prized pomegranate variety, celebrated for its deep red arils, rich sweetness and exceptional shelf life. Grown across the volcanic soils of Solapur and Nashik in Maharashtra, our pomegranates are hand-selected, graded and packed to meet the strict import standards of the Gulf, Southeast Asia and beyond.</p>
+
+          <table class="specs-table">
+            <tr>
+              <td>Variety</td>
+              <td>Bhagwa (Kesar)</td>
+            </tr>
+            <tr>
+              <td>Origin</td>
+              <td>Solapur & Nashik, Maharashtra, India</td>
+            </tr>
+            <tr>
+              <td>Season</td>
+              <td>October — February (peak), June — August (Ambe Bahar)</td>
+            </tr>
+            <tr>
+              <td>Available Sizes</td>
+              <td>6, 9, 12, 16 count per carton</td>
+            </tr>
+            <tr>
+              <td>Packaging</td>
+              <td>4 kg & 5 kg corrugated cartons, foam net wrapped</td>
+            </tr>
+            <tr>
+              <td>Shelf Life</td>
+              <td>45–60 days under cold chain (2–6°C)</td>
+            </tr>
+            <tr>
+              <td>Certifications</td>
+              <td>APEDA, Phytosanitary Certified</td>
+            </tr>
+            <tr>
+              <td>Min. Order</td>
+              <td>1 x 40ft Reefer Container (~18 MT)</td>
+            </tr>
+          </table>
+
+          <a href="/contact" class="detail-cta">Request a Quote</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════
+       PRODUCT DETAIL — BANANAS
+  ═══════════════════════════════════════ -->
+  <section class="product-detail" id="bananas">
+    <div class="detail-inner">
+      <div class="detail-grid">
+
+        <div class="detail-text" style="order: 2;">
+          <span class="detail-variety">Musa Acuminata — Grand Naine Variety</span>
+          <h2 class="detail-title">Grand Naine Bananas</h2>
+          <p class="detail-desc">Grand Naine is the premium Cavendish banana variety, known for its uniform size, firm texture and ability to withstand long-distance sea freight without compromising quality. Sourced from the rich black soil regions of Maharashtra and Karnataka, our bananas are harvested green, graded by hand and packed for optimal ripening at destination.</p>
+
+          <table class="specs-table">
+            <tr>
+              <td>Variety</td>
+              <td>Grand Naine (Cavendish)</td>
+            </tr>
+            <tr>
+              <td>Origin</td>
+              <td>Jalgaon & Kolhapur, Maharashtra, India</td>
+            </tr>
+            <tr>
+              <td>Season</td>
+              <td>Available year-round</td>
+            </tr>
+            <tr>
+              <td>Available Sizes</td>
+              <td>Length 18cm+, Girth 34mm+ (Grade A & B)</td>
+            </tr>
+            <tr>
+              <td>Packaging</td>
+              <td>13 kg telescopic cartons, cluster packed</td>
+            </tr>
+            <tr>
+              <td>Shelf Life</td>
+              <td>28–35 days under controlled atmosphere (13–14°C)</td>
+            </tr>
+            <tr>
+              <td>Certifications</td>
+              <td>APEDA, Phytosanitary Certified</td>
+            </tr>
+            <tr>
+              <td>Min. Order</td>
+              <td>1 x 40ft Reefer Container (~20 MT)</td>
+            </tr>
+          </table>
+
+          <a href="/contact" class="detail-cta">Request a Quote</a>
+        </div>
+
+        <div class="detail-image-wrap" style="order: 1;">
+          <!-- REPLACE: Add to /public/images/detail-banana.jpg -->
+          <img
+            src="/images/detail-banana.jpg"
+            alt="Grand Naine Bananas — Zad Global Trade"
+            onerror="this.outerHTML='<div class=\'detail-image-placeholder\'>Add detail-banana.jpg</div>'"
+          />
+          <span class="detail-badge">Year Round</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CTA BANNER
+  ═══════════════════════════════════════ -->
+  <section class="cta-banner">
+    <div class="cta-banner-inner">
+      <h2>Ready to Place an Order?</h2>
+      <p>Whether you are an importer, distributor or wholesaler — we are ready to discuss your requirements, volumes and shipping schedules. Get in touch and let us deliver quality you can trust.</p>
+      <a href="/contact" class="btn-gold">Contact Us Today</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+
+      <div>
+        <span class="footer-brand-name">Zad Global Trade</span>
+        <p class="footer-tagline">Exporting India's premium agricultural heritage to the global stage with integrity, quality, and precision.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn" aria-label="Website">🌐</a>
+          <a href="mailto:zadglobaltrade@gmail.com" class="footer-social-btn" aria-label="Email">✉</a>
+        </div>
+      </div>
+
+      <div>
+        <span class="footer-col-title">Quick Links</span>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/products">Our Products</a></li>
+          <li><a href="/certifications">Global Certifications</a></li>
+          <li><a href="/blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <span class="footer-col-title">Company</span>
+        <ul class="footer-links">
+          <li><a href="/services">Our Services</a></li>
+          <li><a href="/why-us">Why Source From Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <span class="footer-col-title">Contact Info</span>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📍</span>
+          <span class="footer-contact-text">Samta Soc Building 5/14, Yamuna Nagar, Nigdi, Pune, Maharashtra, India</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📞</span>
+          <span class="footer-contact-text">+91 97309 05006</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">✉</span>
+          <span class="footer-contact-text">zadglobaltrade@gmail.com</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Zad Global Trade. All rights reserved.</span>
+      <div class="footer-badges">
+        <span class="footer-badge">APEDA Member</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

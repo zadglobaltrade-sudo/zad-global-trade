@@ -1,0 +1,837 @@
+---
+// Zad Global Trade - Blog Listing Page
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Generate slugs from file paths
+const postsWithSlugs = sortedPosts.map(post => ({
+  ...post,
+  slug: post.slug || post.id?.replace('.md', '') || 'unknown'
+}));
+
+const featuredPost = postsWithSlugs.find(p => p.data.featured) || postsWithSlugs[0];
+const remainingPosts = postsWithSlugs.filter(p => p.slug !== featuredPost?.slug);
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  <title>Blog — Zad Global Trade</title>
+  <meta name="description" content="Export insights, trade perspectives and fresh produce industry knowledge from Zad Global Trade." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --green-dark: #1B4332;
+      --green-mid: #2D6A4F;
+      --gold: #C9963E;
+      --gold-light: #E8B96A;
+      --offwhite: #FAF7F2;
+      --charcoal: #1C1C1C;
+      --grey: #6B6B6B;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--offwhite);
+      color: var(--charcoal);
+    }
+
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+    /* ─── NAVBAR ─── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--green-dark);
+      padding: 0 3rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img { height: 44px; width: auto; }
+
+    .nav-logo span {
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a.active { color: white; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+    .nav-icon { color: rgba(255,255,255,0.7); font-size: 1.1rem; }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      background: var(--green-dark);
+      padding: 9rem 3rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(201,150,62,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 1.2rem;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .page-hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+    }
+
+    /* ─── SHARED ─── */
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    /* ─── FEATURED POST ─── */
+    .featured-section {
+      padding: 5rem 3rem 3rem;
+      background: var(--offwhite);
+    }
+
+    .featured-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .featured-header {
+      margin-bottom: 2rem;
+    }
+
+    .featured-post {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: white;
+      text-decoration: none;
+      color: inherit;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .featured-post:hover { transform: translateY(-4px); }
+
+    .featured-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .featured-post:hover .featured-image img {
+      transform: scale(1.03);
+    }
+
+    .featured-image-placeholder {
+      width: 100%;
+      height: 420px;
+      background: var(--green-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      background: var(--gold);
+      color: white;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.3rem 0.7rem;
+    }
+
+    .featured-body {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-left: none;
+    }
+
+    .featured-category {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .featured-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: var(--green-dark);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .featured-excerpt {
+      font-size: 0.88rem;
+      color: var(--grey);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .featured-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .featured-date {
+      font-size: 0.75rem;
+      color: var(--grey);
+      font-weight: 300;
+    }
+
+    .featured-read-more {
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── BLOG GRID ─── */
+    .blog-section {
+      padding: 3rem 3rem 6rem;
+      background: var(--offwhite);
+    }
+
+    .blog-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .blog-grid-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .blog-grid-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--green-dark);
+    }
+
+    .blog-count {
+      font-size: 0.75rem;
+      color: var(--grey);
+      font-weight: 300;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .blog-card {
+      background: white;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+      transition: transform 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .blog-card:hover { transform: translateY(-4px); }
+
+    .blog-card-image {
+      overflow: hidden;
+    }
+
+    .blog-card-image img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .blog-card:hover .blog-card-image img { transform: scale(1.04); }
+
+    .blog-card-image-placeholder {
+      width: 100%;
+      height: 200px;
+      background: var(--green-dark);
+      opacity: 0.7;
+    }
+
+    .blog-card-body {
+      padding: 1.5rem;
+    }
+
+    .blog-card-category {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .blog-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--green-dark);
+      line-height: 1.35;
+      margin-bottom: 0.6rem;
+    }
+
+    .blog-card-excerpt {
+      font-size: 0.8rem;
+      color: var(--grey);
+      line-height: 1.65;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .blog-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .blog-card-date {
+      font-size: 0.72rem;
+      color: var(--grey);
+      font-weight: 300;
+    }
+
+    .blog-read-more {
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Empty state */
+    .blog-empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .blog-empty-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+
+    .blog-empty h3 {
+      font-size: 1.2rem;
+      color: var(--green-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-empty p {
+      font-size: 0.85rem;
+      color: var(--grey);
+      font-weight: 300;
+    }
+
+    /* ─── HOW TO ADD BLOG ─── */
+    .howto-section {
+      background: var(--green-dark);
+      padding: 4rem 3rem;
+    }
+
+    .howto-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .howto-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: white;
+      margin-bottom: 0.8rem;
+      line-height: 1.25;
+    }
+
+    .howto-text p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.55);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .howto-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .howto-step {
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 1.5rem;
+    }
+
+    .howto-step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .howto-step-title {
+      font-size: 0.82rem;
+      color: white;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .howto-step-desc {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.45);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--green-dark);
+      padding: 4rem 3rem 0;
+      border-top: 1px solid var(--gold);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+    }
+
+    .footer-brand-name {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      color: white;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 1.4rem;
+    }
+
+    .footer-socials { display: flex; gap: 0.6rem; }
+
+    .footer-social-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .footer-social-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .footer-col-title {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 300;
+    }
+
+    .footer-links a:hover { color: white; }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-contact-icon { color: var(--gold); font-size: 0.85rem; margin-top: 2px; flex-shrink: 0; }
+    .footer-contact-text { font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.5; font-weight: 300; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 1.4rem 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.35); letter-spacing: 0.05em; }
+    .footer-badges { display: flex; gap: 1.5rem; }
+    .footer-badge { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .howto-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .howto-steps { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      #navbar { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .page-hero { padding: 7rem 1.2rem 3.5rem; }
+      .featured-section { padding: 4rem 1.2rem 2rem; }
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-image img { height: 260px; }
+      .featured-body { padding: 1.5rem; border-left: 1px solid rgba(0,0,0,0.06); border-top: none; }
+      .blog-section { padding: 2rem 1.2rem 4rem; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .howto-section { padding: 3rem 1.2rem; }
+      .howto-steps { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/images/logo.png" alt="Zad Global Trade" onerror="this.style.display='none'" />
+        <span>Zad Global Trade</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/certifications">Certifications</a></li>
+        <li><a href="/blog" class="active">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <span class="nav-icon">🌿</span>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       PAGE HERO
+  ═══════════════════════════════════════ -->
+  <section class="page-hero">
+    <span class="page-hero-label">Knowledge & Insights</span>
+    <h1>Global Trade Perspectives</h1>
+    <p class="page-hero-sub">Export insights, trade knowledge and fresh produce industry perspectives from our team.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FEATURED POST
+  ═══════════════════════════════════════ -->
+  {featuredPost && (
+    <section class="featured-section">
+      <div class="featured-inner">
+        <div class="featured-header">
+          <span class="section-label">Featured Article</span>
+        </div>
+        <a href={`/blog/${featuredPost.slug}`} class="featured-post">
+          <div class="featured-image">
+            {featuredPost.data.image ? (
+              <img
+                src={featuredPost.data.image}
+                alt={featuredPost.data.title}
+                onerror="this.outerHTML='<div class=\'featured-image-placeholder\'>Add blog image</div>'"
+              />
+            ) : (
+              <div class="featured-image-placeholder">Add blog-1.jpg to /public/images/</div>
+            )}
+            <span class="featured-badge">Featured</span>
+          </div>
+          <div class="featured-body">
+            <span class="featured-category">{featuredPost.data.category}</span>
+            <h2 class="featured-title">{featuredPost.data.title}</h2>
+            <p class="featured-excerpt">{featuredPost.data.description}</p>
+            <div class="featured-meta">
+              <span class="featured-date">
+                {featuredPost.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </span>
+              <span class="featured-read-more">Read Article →</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <!-- ═══════════════════════════════════════
+       BLOG GRID
+  ═══════════════════════════════════════ -->
+  <section class="blog-section">
+    <div class="blog-inner">
+
+      <div class="blog-grid-header">
+        <h2 class="blog-grid-title">All Articles</h2>
+        <span class="blog-count">{sortedPosts.length} {sortedPosts.length === 1 ? 'article' : 'articles'}</span>
+      </div>
+
+      {remainingPosts.length > 0 ? (
+        <div class="blog-grid">
+          {remainingPosts.map(post => (
+            <a href={`/blog/${post.slug}`} class="blog-card">
+              <div class="blog-card-image">
+                {post.data.image ? (
+                  <img
+                    src={post.data.image}
+                    alt={post.data.title}
+                    onerror="this.outerHTML='<div class=\'blog-card-image-placeholder\'></div>'"
+                  />
+                ) : (
+                  <div class="blog-card-image-placeholder"></div>
+                )}
+              </div>
+              <div class="blog-card-body">
+                <span class="blog-card-category">{post.data.category}</span>
+                <h3 class="blog-card-title">{post.data.title}</h3>
+                <p class="blog-card-excerpt">{post.data.description}</p>
+                <div class="blog-card-footer">
+                  <span class="blog-card-date">
+                    {post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </span>
+                  <span class="blog-read-more">Read More →</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="blog-empty">
+          <span class="blog-empty-icon">✍️</span>
+          <h3>More articles coming soon</h3>
+          <p>We are working on new content. Check back soon.</p>
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       HOW TO ADD A BLOG POST
+       (Remove this section before going live)
+  ═══════════════════════════════════════ -->
+  <section class="howto-section">
+    <div class="howto-inner">
+      <div class="howto-text">
+        <h2>Adding a New Blog Post</h2>
+        <p>Follow these 3 steps every time you want to publish a new article. No coding needed.</p>
+      </div>
+      <div class="howto-steps">
+        <div class="howto-step">
+          <span class="howto-step-num">01</span>
+          <span class="howto-step-title">Create a .md file</span>
+          <span class="howto-step-desc">Go to src/content/blog/ and create a new file like my-post-title.md</span>
+        </div>
+        <div class="howto-step">
+          <span class="howto-step-num">02</span>
+          <span class="howto-step-title">Add the header info</span>
+          <span class="howto-step-desc">Copy the top section from sample-post.md and update title, date, category and description.</span>
+        </div>
+        <div class="howto-step">
+          <span class="howto-step-num">03</span>
+          <span class="howto-step-title">Write your content</span>
+          <span class="howto-step-desc">Write below the --- line using normal text. Use ## for headings and ** for bold. Save and it appears automatically.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-brand-name">Zad Global Trade</span>
+        <p class="footer-tagline">Exporting India's premium agricultural heritage to the global stage with integrity, quality, and precision.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn" aria-label="Website">🌐</a>
+          <a href="mailto:zadglobaltrade@gmail.com" class="footer-social-btn" aria-label="Email">✉</a>
+        </div>
+      </div>
+      <div>
+        <span class="footer-col-title">Quick Links</span>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/products">Our Products</a></li>
+          <li><a href="/certifications">Global Certifications</a></li>
+          <li><a href="/blog">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer-col-title">Company</span>
+        <ul class="footer-links">
+          <li><a href="/services">Our Services</a></li>
+          <li><a href="/why-us">Why Source From Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer-col-title">Contact Info</span>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📍</span>
+          <span class="footer-contact-text">Samta Soc Building 5/14, Yamuna Nagar, Nigdi, Pune, Maharashtra, India</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📞</span>
+          <span class="footer-contact-text">+91 97309 05006</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">✉</span>
+          <span class="footer-contact-text">zadglobaltrade@gmail.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Zad Global Trade. All rights reserved.</span>
+      <div class="footer-badges">
+        <span class="footer-badge">APEDA Member</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
