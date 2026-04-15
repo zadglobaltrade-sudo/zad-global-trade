@@ -104,9 +104,32 @@
       padding-bottom: 2px;
     }
 
-    .nav-icon {
-      color: rgba(255,255,255,0.7);
-      font-size: 1.1rem;
+    .nav-toggle-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      cursor: pointer;
+    }
+    
+    .toggle-line {
+      width: 20px;
+      height: 2px;
+      background: rgba(255,255,255,0.7);
+      transition: all 0.3s ease;
+    }
+    
+    .nav-toggle-bar:hover .toggle-line {
+      background: var(--gold);
+    }
+
+    .mobile-menu-toggle {
+      display: block;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
     }
 
     /* ─── HERO ─── */
@@ -328,7 +351,7 @@
 
     /* ─── SECTION SHARED ─── */
     .section {
-      padding: 6rem 3rem;
+      padding: 4rem 3rem;
     }
 
     .section-inner {
@@ -434,7 +457,7 @@
     /* ─── IMPACT BANNER ─── */
     .impact-section {
       padding: 0 3rem;
-      margin-bottom: 6rem;
+      margin-bottom: 4rem;
     }
 
     .impact-inner {
@@ -521,12 +544,12 @@
     /* ─── PRODUCTS ─── */
     .products-section {
       background: var(--offwhite);
-      padding: 6rem 3rem;
+      padding: 4rem 3rem;
     }
 
     .products-header {
       max-width: 1200px;
-      margin: 0 auto 3rem;
+      margin: 0 auto 2rem;
     }
 
     .products-grid {
@@ -588,7 +611,7 @@
 
     .products-cta {
       max-width: 1200px;
-      margin: 2.5rem auto 0;
+      margin: 1.5rem auto 0;
       text-align: center;
     }
 
@@ -612,13 +635,13 @@
 
     /* ─── BLOG ─── */
     .blog-section {
-      padding: 6rem 3rem;
+      padding: 4rem 3rem;
       background: var(--offwhite);
     }
 
     .blog-header {
       max-width: 1200px;
-      margin: 0 auto 3rem;
+      margin: 0 auto 2rem;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -840,17 +863,170 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 768px) {
-      #navbar { padding: 0 1.2rem; }
-      .nav-links { display: none; }
-      .section { padding: 4rem 1.2rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      #navbar { padding: 0 1rem; }
+      .nav-links { 
+        display: none; 
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: var(--green-dark);
+        flex-direction: column;
+        padding: 1rem 0;
+        gap: 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .nav-links li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .nav-links a {
+        display: block;
+        padding: 1rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      .nav-links a:hover {
+        background: rgba(255,255,255,0.1);
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+        z-index: 101;
+      }
+      
+      .nav-icon {
+        display: none;
+      }
+      
+      .section { padding: 3rem 1rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
       .impact-inner { grid-template-columns: 1fr; }
       .impact-image { height: 240px; }
       .products-grid { grid-template-columns: 1fr; }
       .blog-grid { grid-template-columns: 1fr; }
-      .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
       .stats-bar-inner { grid-template-columns: repeat(2, 1fr); }
       .blog-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      
+      /* Mobile Hero Improvements */
+      .hero-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+        line-height: 1.2;
+      }
+      
+      .hero-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      
+      .btn-gold, .btn-outline {
+        width: 200px;
+        text-align: center;
+      }
+      
+      /* Mobile Stats Bar */
+      .stats-bar {
+        padding: 1.2rem 1rem;
+      }
+      
+      .stat-item {
+        padding: 0.8rem;
+      }
+      
+      .stat-number {
+        font-size: 1.3rem;
+      }
+      
+      /* Mobile About Section */
+      .about-image-wrap img {
+        height: 300px;
+      }
+      
+      .about-features {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      
+      /* Mobile Impact Section */
+      .impact-content {
+        padding: 2rem 1.5rem;
+      }
+      
+      .impact-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      /* Mobile Products */
+      .products-section {
+        padding: 3rem 1rem;
+      }
+      
+      .product-card img {
+        height: 240px;
+      }
+      
+      /* Mobile Blog */
+      .blog-section {
+        padding: 3rem 1rem;
+      }
+      
+      .blog-card img {
+        height: 180px;
+      }
+      
+      /* Mobile Footer */
+      footer {
+        padding: 3rem 1rem 0;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: clamp(1.8rem, 10vw, 2.5rem);
+      }
+      
+      .hero-subtitle {
+        font-size: 0.85rem;
+      }
+      
+      .section-title {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+      }
+      
+      .stats-bar-inner {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      
+      .stat-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        padding: 1rem;
+      }
+      
+      .stat-item:last-child {
+        border-bottom: none;
+      }
     }
   </style>
 </head>
@@ -875,7 +1051,6 @@
         <li><a href="/blog">Blog</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>
-      <span class="nav-icon">🌿</span>
     </div>
   </nav>
 
@@ -901,38 +1076,10 @@
       </div>
     </div>
 
-    <!-- Arrows -->
-    <button class="hero-arrow hero-arrow-left" id="prevSlide" aria-label="Previous slide">&#8592;</button>
-    <button class="hero-arrow hero-arrow-right" id="nextSlide" aria-label="Next slide">&#8594;</button>
-
     <!-- Dots -->
     <div class="hero-dots">
       <button class="hero-dot active" data-index="0" aria-label="Slide 1"></button>
       <button class="hero-dot" data-index="1" aria-label="Slide 2"></button>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       STATS BAR
-  ═══════════════════════════════════════ -->
-  <section class="stats-bar">
-    <div class="stats-bar-inner">
-      <div class="stat-item">
-        <span class="stat-number">5</span>
-        <span class="stat-label">Export Markets</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">2</span>
-        <span class="stat-label">Premium Products</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">APEDA</span>
-        <span class="stat-label">REGISTERED</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">50+</span>
-        <span class="stat-label">Tonnes Exported</span>
-      </div>
     </div>
   </section>
 
@@ -1202,7 +1349,7 @@
     </div>
 
     <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Zad Global Trade. All rights reserved.</span>
+      <span class="footer-copy"> 2026 Zad Global Trade. All rights reserved.</span>
       <div class="footer-badges">
         <span class="footer-badge">APEDA Member</span>
       </div>
@@ -1210,18 +1357,26 @@
   </footer>
 
   <!-- ═══════════════════════════════════════
-       JAVASCRIPT — Navbar scroll + Hero slider
+       JAVASCRIPT — Navbar scroll 
   ═══════════════════════════════════════ -->
   <script>
     // Navbar scroll effect
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
+    
+    // Check scroll position on page load
+    function updateNavbar() {
       if (window.scrollY > 60) {
         navbar.classList.add('scrolled');
       } else {
         navbar.classList.remove('scrolled');
       }
-    });
+    }
+    
+    // Update navbar on scroll
+    window.addEventListener('scroll', updateNavbar);
+    
+    // Check initial scroll position
+    updateNavbar();
 
     // Hero slider
     let currentSlide = 0;
@@ -1235,12 +1390,34 @@
       dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
     }
 
-    document.getElementById('nextSlide').addEventListener('click', () => goToSlide(currentSlide + 1));
-    document.getElementById('prevSlide').addEventListener('click', () => goToSlide(currentSlide - 1));
     dots.forEach(dot => dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.index))));
 
     // Auto-advance every 5 seconds
     setInterval(() => goToSlide(currentSlide + 1), 5000);
+    
+    // Touch-friendly mobile slider
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    const hero = document.querySelector('.hero');
+    
+    hero.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    hero.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+    
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) {
+        goToSlide(currentSlide + 1); // Swipe left - next slide
+      }
+      if (touchEndX > touchStartX + 50) {
+        goToSlide(currentSlide - 1); // Swipe right - previous slide
+      }
+    }
   </script>
 
 </body>
