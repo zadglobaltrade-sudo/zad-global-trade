@@ -1,3 +1,7 @@
+---
+// Zad Global Trade - Contact Page
+---
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -614,7 +618,6 @@
 
   <section class="contact-section">
     <div class="contact-inner">
-
       <div class="contact-info">
         <span class="section-label">Contact Details</span>
         <h2 class="contact-info-title">We Are Here<br/>to Help You Source</h2>
@@ -628,7 +631,6 @@
               <span class="contact-detail-value">Samta Soc Building 5/14,<br/>Yamuna Nagar, Nigdi,<br/>Pune, Maharashtra, India</span>
             </div>
           </div>
-
           <div class="contact-detail-item">
             <div class="contact-detail-icon">📞</div>
             <div class="contact-detail-content">
@@ -638,7 +640,6 @@
               </span>
             </div>
           </div>
-
           <div class="contact-detail-item">
             <div class="contact-detail-icon">✉</div>
             <div class="contact-detail-content">
@@ -648,7 +649,6 @@
               </span>
             </div>
           </div>
-
           <div class="contact-detail-item">
             <div class="contact-detail-icon">🕐</div>
             <div class="contact-detail-content">
@@ -667,7 +667,7 @@
       <div class="contact-form-wrap">
         <form id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="contact" />
-          <input type="hidden" name="bot-field" style="display:none" />
+          <input type="hidden" name="bot-field" />
           
           <h2 class="form-title">Send an Inquiry</h2>
           <p class="form-subtitle">Fill in the details below and our team will get back to you with a tailored response.</p>
@@ -677,17 +677,14 @@
               <label for="firstName">First Name *</label>
               <input type="text" id="firstName" name="firstName" placeholder="Ahmed" required />
             </div>
-
             <div class="form-field">
               <label for="lastName">Last Name *</label>
               <input type="text" id="lastName" name="lastName" placeholder="Al Rashid" required />
             </div>
-
             <div class="form-field">
               <label for="company">Company Name</label>
               <input type="text" id="company" name="company" placeholder="Your Import Company" />
             </div>
-
             <div class="form-field">
               <label for="country">Country *</label>
               <select id="country" name="country" required>
@@ -700,17 +697,14 @@
                 <option>Other</option>
               </select>
             </div>
-
             <div class="form-field">
               <label for="email">Email Address *</label>
               <input type="email" id="email" name="email" placeholder="ahmed@company.com" required />
             </div>
-
             <div class="form-field">
               <label for="phone">Phone / WhatsApp</label>
               <input type="tel" id="phone" name="phone" placeholder="+971 50 000 0000" />
             </div>
-
             <div class="form-field full">
               <label for="product">Product of Interest</label>
               <select id="product" name="product">
@@ -721,15 +715,14 @@
                 <option>Other / Not sure yet</option>
               </select>
             </div>
-
             <div class="form-field full">
               <label for="message">Your Message *</label>
               <textarea id="message" name="message" placeholder="Please share your requirements..." required></textarea>
             </div>
           </div>
 
-          <button type="submit" class="form-submit" id="formSubmit">Send Inquiry</button>
-          <p class="form-note">By submitting this form you agree to be contacted...</p>
+          <button type="submit" class="form-submit">Send Inquiry</button>
+          <p class="form-note">By submitting this form you agree to be contacted by our team.</p>
         </form>
 
         <div class="form-success" id="formSuccess">
@@ -761,48 +754,17 @@
     </div>
   </section>
 
-  <section class="map-section">
-    <div class="map-inner">
-      <div class="map-header">
-        <span class="section-label">Find Us</span>
-        <h2>Nigdi, Pune, Maharashtra</h2>
-      </div>
-      <iframe
-        class="map-embed"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.5!2d73.7634!3d18.6497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9e6e8e8e8e8%3A0x8e8e8e8e8e8e8e8e!2sNigdi%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1234567890"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Zad Global Trade Location">
-      </iframe>
-    </div>
-  </section>
-
   <footer>
     <div class="footer-inner">
       <div>
         <span class="footer-brand-name">Zad Global Trade</span>
         <p class="footer-tagline">Exporting India's premium agricultural heritage to the global stage.</p>
-        <div class="footer-socials">
-          <a href="#" class="footer-social-btn">🌐</a>
-          <a href="mailto:zadglobaltrade@gmail.com" class="footer-social-btn">✉</a>
-        </div>
       </div>
       <div>
         <span class="footer-col-title">Quick Links</span>
         <ul class="footer-links">
           <li><a href="/">Home</a></li>
           <li><a href="/about">About Us</a></li>
-          <li><a href="/products">Our Products</a></li>
-          <li><a href="/certifications">Global Certifications</a></li>
-          <li><a href="/blog">Blog</a></li>
-        </ul>
-      </div>
-      <div>
-        <span class="footer-col-title">Company</span>
-        <ul class="footer-links">
-          <li><a href="/services">Our Services</a></li>
-          <li><a href="/why-us">Why Source From Us</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
       </div>
@@ -812,41 +774,22 @@
           <span class="footer-contact-icon">📍</span>
           <span class="footer-contact-text">Samta Soc Building 5/14, Yamuna Nagar, Nigdi, Pune, Maharashtra, India</span>
         </div>
-        <div class="footer-contact-item">
-          <span class="footer-contact-icon">📞</span>
-          <span class="footer-contact-text">+91 97309 05006</span>
-        </div>
-        <div class="footer-contact-item">
-          <span class="footer-contact-icon">✉</span>
-          <span class="footer-contact-text">zadglobaltrade@gmail.com</span>
-        </div>
       </div>
     </div>
     <div class="footer-bottom">
       <span class="footer-copy">© 2026 Zad Global Trade. All rights reserved.</span>
-      <div class="footer-badges">
-        <span class="footer-badge">APEDA Member</span>
-      </div>
     </div>
   </footer>
 
-  <script>
+  <script is:inline>
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const firstName = document.getElementById('firstName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const country = document.getElementById('country').value;
-      const message = document.getElementById('message').value.trim();
-
-      if (!firstName || !email || !country || !message) {
-        alert('Please fill in all required fields marked with *');
-        return;
-      }
-
-      const formData = new FormData(e.target);
+      const form = e.target;
+      const formData = new FormData(form);
+      
       try {
-        const response = await fetch('/', {
+        const response = await fetch(window.location.href, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(formData).toString()
@@ -856,10 +799,11 @@
           document.getElementById('contactForm').style.display = 'none';
           document.getElementById('formSuccess').style.display = 'block';
         } else {
-          alert('Something went wrong. Please try again or email us directly.');
+          throw new Error('Server responded with an error status');
         }
       } catch (err) {
-        alert('Something went wrong. Please try again or email us directly.');
+        console.error("Submission error:", err);
+        alert('Something went wrong. Please check your internet or email us directly at zadglobaltrade@gmail.com');
       }
     });
   </script>
