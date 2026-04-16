@@ -15,10 +15,10 @@
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-  <!-- Google Fonts: Playfair Display + DM Sans -->
+  <!-- Google Fonts: Poppins + Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -36,13 +36,15 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background-color: var(--offwhite);
       color: var(--charcoal);
+      font-weight: 400;
     }
 
     h1, h2, h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 600;
     }
 
     /* ─── NAVBAR ─── */
@@ -69,7 +71,7 @@
     }
 
     .nav-logo {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       font-weight: 600;
       font-size: 1rem;
       letter-spacing: 0.12em;
@@ -196,14 +198,14 @@
     }
 
     .hero-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: clamp(1.6rem, 3.8vw, 3rem);
       color: white;
       line-height: 1.1;
       margin-bottom: 1.2rem;
       max-width: 800px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       text-transform: none;
     }
 
@@ -336,12 +338,13 @@
     .stat-item:last-child { border-right: none; }
 
     .stat-number {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 1.6rem;
       color: var(--gold);
       display: block;
       line-height: 1;
       margin-bottom: 0.3rem;
+      font-weight: 600;
     }
 
     .stat-label {
@@ -373,12 +376,12 @@
     }
 
     .section-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: clamp(1.8rem, 4vw, 3rem);
       color: var(--green-dark);
       line-height: 1.2;
       font-weight: 600;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       margin-bottom: 1.4rem;
     }
 
@@ -408,21 +411,22 @@
       background: var(--gold);
       color: white;
       padding: 1.2rem 1.6rem;
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-style: italic;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
       max-width: 240px;
       line-height: 1.4;
     }
 
     .about-text p {
       color: var(--grey);
-      line-height: 1.7;
-      margin-bottom: 1.6rem;
-      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+      font-size: 1.05rem;
       font-weight: 300;
       max-width: 100%;
       text-align: left;
+      letter-spacing: 0.01em;
     }
 
     .about-features {
@@ -506,10 +510,10 @@
     }
 
     .impact-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 1.6rem;
       color: var(--gold);
-      font-style: italic;
+      font-weight: 600;
       margin-bottom: 1rem;
     }
 
@@ -523,38 +527,57 @@
 
     .impact-stats {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+      margin-top: 2rem;
     }
 
     .impact-stat {
       display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.8rem;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    
+    .impact-stat:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border-color: rgba(255,255,255,0.25);
     }
 
     .impact-stat-icon {
       color: var(--gold);
-      font-size: 1.1rem;
-      margin-top: 2px;
-      flex-shrink: 0;
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(201, 170, 107, 0.3));
     }
 
     .impact-stat-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 1.4rem;
       color: white;
       display: block;
-      line-height: 1;
+      line-height: 1.1;
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
 
     .impact-stat-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.55);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.85);
       text-transform: uppercase;
-      margin-top: 0.2rem;
+      font-weight: 600;
       display: block;
+      margin-top: 0.3rem;
     }
 
     /* ─── PRODUCTS ─── */
@@ -604,11 +627,12 @@
     }
 
     .product-name {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 1.3rem;
       color: var(--green-dark);
       display: block;
       margin-bottom: 0.4rem;
+      font-weight: 600;
     }
 
     .product-desc {
@@ -718,11 +742,12 @@
     }
 
     .blog-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 1.1rem;
       color: var(--green-dark);
       line-height: 1.35;
       margin-bottom: 0.6rem;
+      font-weight: 600;
     }
 
     .blog-excerpt {
@@ -760,7 +785,7 @@
     }
 
     .footer-brand-name {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       font-weight: 600;
       font-size: 0.95rem;
       letter-spacing: 0.12em;
@@ -973,9 +998,10 @@
       }
       
       .about-text p {
-        font-size: 0.95rem;
-        line-height: 1.6;
-        margin-bottom: 1.4rem;
+        font-size: 0.98rem;
+        line-height: 1.5;
+        margin-bottom: 1.6rem;
+        letter-spacing: 0.005em;
       }
       
       .about-features {
@@ -1003,12 +1029,18 @@
       
       /* Mobile Impact Section */
       .impact-content {
-        padding: 2rem 1.5rem;
+        padding: 2.5rem 2rem;
       }
       
       .impact-stats {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 1.2rem;
+        margin-bottom: 1rem;
+      }
+      
+      .impact-stat {
+        padding: 1.2rem;
+        margin-bottom: 0.8rem;
       }
       
       /* Mobile Products */
@@ -1146,7 +1178,7 @@
         <div class="about-text">
           <span class="section-label">Who We Are</span>
           <h2 class="section-title" style="margin-bottom: 1.4rem;">Reliable Sourcing from India for Global Buyers</h2>
-          <p>Zad Global Trade is built around a simple idea — connecting quality produce from Indian farms to buyers around the world. Fresh fruits like bananas and pomegranates require careful sourcing and handling at every stage, and we work to make that process smooth through reliable coordination, clear communication, and well-managed export support.</p>
+          <p>We work with a growing network of suppliers to connect Indian produce with international buyers in a reliable and transparent way.</p>
           <p>Our goal is to provide buyers with a dependable sourcing experience from India.</p>
 
           <div class="about-features">
@@ -1186,35 +1218,28 @@
         />
       </div>
       <div class="impact-content">
-        <h3 class="impact-title">Our Growing Impact</h3>
-        <p class="impact-desc">Through our dedicated network, we empower local farming communities while delivering premium Indian produce to markets across Asia and the Middle East.</p>
+        <h3 class="impact-title">Our Approach</h3>
+        <p class="impact-desc">We work with a growing network of suppliers to connect Indian produce with international buyers in a reliable and transparent way.</p>
         <div class="impact-stats">
           <div class="impact-stat">
             <span class="impact-stat-icon">🌍</span>
             <div>
-              <span class="impact-stat-value">5+</span>
-              <span class="impact-stat-label">Nations Served</span>
+              <span class="impact-stat-value">Global</span>
+              <span class="impact-stat-label">Reach</span>
             </div>
           </div>
           <div class="impact-stat">
             <span class="impact-stat-icon">📦</span>
             <div>
-              <span class="impact-stat-value">100%</span>
-              <span class="impact-stat-label">Traceability</span>
+              <span class="impact-stat-value">Clear</span>
+              <span class="impact-stat-label">Process</span>
             </div>
           </div>
           <div class="impact-stat">
             <span class="impact-stat-icon">🤝</span>
             <div>
-              <span class="impact-stat-value">20+</span>
-              <span class="impact-stat-label">Partner Farms</span>
-            </div>
-          </div>
-          <div class="impact-stat">
-            <span class="impact-stat-icon">🏆</span>
-            <div>
-              <span class="impact-stat-value">Export</span>
-              <span class="impact-stat-label">GRADE QUALITY</span>
+              <span class="impact-stat-value">Trusted</span>
+              <span class="impact-stat-label">Network</span>
             </div>
           </div>
         </div>
