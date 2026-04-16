@@ -374,9 +374,12 @@
 
     .section-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-size: clamp(1.8rem, 4vw, 3rem);
       color: var(--green-dark);
       line-height: 1.2;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.4rem;
     }
 
     /* ─── ABOUT ─── */
@@ -414,10 +417,12 @@
 
     .about-text p {
       color: var(--grey);
-      line-height: 1.8;
-      margin-bottom: 2rem;
-      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1.6rem;
+      font-size: 1rem;
       font-weight: 300;
+      max-width: 100%;
+      text-align: left;
     }
 
     .about-features {
@@ -429,32 +434,40 @@
 
     .feature-card {
       border: 1px solid rgba(0,0,0,0.08);
-      padding: 1.2rem 1rem;
+      padding: 1.5rem 1.2rem;
       text-align: center;
       background: white;
+      border-radius: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .feature-icon {
-      font-size: 1.4rem;
-      margin-bottom: 0.6rem;
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
       display: block;
       color: var(--gold);
     }
 
     .feature-title {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 600;
       color: var(--green-dark);
       display: block;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
     }
 
     .feature-desc {
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       color: var(--grey);
       line-height: 1.5;
+      font-weight: 300;
     }
 
     /* ─── IMPACT BANNER ─── */
@@ -959,9 +972,33 @@
         height: 300px;
       }
       
+      .about-text p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.4rem;
+      }
+      
       .about-features {
         grid-template-columns: 1fr;
         gap: 0.8rem;
+      }
+      
+      .feature-card {
+        padding: 1.2rem 1rem;
+      }
+      
+      .feature-icon {
+        font-size: 1.4rem;
+        margin-bottom: 0.6rem;
+      }
+      
+      .feature-title {
+        font-size: 0.72rem;
+        margin-bottom: 0.4rem;
+      }
+      
+      .feature-desc {
+        font-size: 0.78rem;
       }
       
       /* Mobile Impact Section */
@@ -1015,7 +1052,8 @@
       }
       
       .section-title {
-        font-size: clamp(1.5rem, 6vw, 2rem);
+        font-size: clamp(1.4rem, 6vw, 2.2rem);
+        line-height: 1.3;
       }
       
       .stats-bar-inner {
@@ -1107,25 +1145,25 @@
 
         <div class="about-text">
           <span class="section-label">Who We Are</span>
-          <h2 class="section-title" style="margin-bottom: 1.4rem;">Bridging the Gap Between Soil and Soul</h2>
-          <p>Based in Pune, Zad Global Trade is a premier exporter of high-quality agricultural produce. We specialise in sourcing pomegranates and bananas directly from farmers, ensuring that every piece of fruit meets international standards of freshness and taste.</p>
-          <p>Our partnerships with certified farms across Maharashtra allow us to maintain strict traceability and deliver consistent, premium quality to importers across Asia and the Middle East.</p>
+          <h2 class="section-title" style="margin-bottom: 1.4rem;">Reliable Sourcing from India for Global Buyers</h2>
+          <p>Zad Global Trade is built around a simple idea — connecting quality produce from Indian farms to buyers around the world. Fresh fruits like bananas and pomegranates require careful sourcing and handling at every stage, and we work to make that process smooth through reliable coordination, clear communication, and well-managed export support.</p>
+          <p>Our goal is to provide buyers with a dependable sourcing experience from India.</p>
 
           <div class="about-features">
             <div class="feature-card">
               <span class="feature-icon">🌱</span>
-              <span class="feature-title">Farm Fresh</span>
-              <span class="feature-desc">Direct sourcing from controlled farms in India.</span>
+              <span class="feature-title">Direct Sourcing</span>
+              <span class="feature-desc">Carefully sourced from reliable suppliers across India.</span>
             </div>
             <div class="feature-card">
               <span class="feature-icon">🚢</span>
               <span class="feature-title">Export Ready</span>
-              <span class="feature-desc">Sophisticated logistics and cold-chain management.</span>
+              <span class="feature-desc">Smooth coordination of logistics, documentation, and shipment.</span>
             </div>
             <div class="feature-card">
               <span class="feature-icon">✅</span>
-              <span class="feature-title">Verified</span>
-              <span class="feature-desc">International quality Standards.</span>
+              <span class="feature-title">Reliable Quality</span>
+              <span class="feature-desc">Focused on consistency and proper handling at every stage.</span>
             </div>
           </div>
         </div>
