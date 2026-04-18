@@ -559,9 +559,31 @@
     .footer-badge { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
 
     /* ─── RESPONSIVE ─── */
+    .hamburger-btn { display: none; }
+
     @media (max-width: 768px) {
       #navbar { padding: 0 1.2rem; }
       .nav-links { display: none; }
+      
+      /* Hamburger Button */
+      .hamburger-btn {
+        display: block;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        transition: color 0.2s;
+        z-index: 1001;
+      }
+      
+      .hamburger-btn:hover { color: var(--gold); }
+      
+      .hamburger-btn .close-icon { display: none; }
+      .hamburger-btn.active .hamburger-icon { display: none; }
+      .hamburger-btn.active .close-icon { display: block; }
+      
       .section { padding: 4rem 1.2rem; }
       .story-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .values-grid { grid-template-columns: 1fr; gap: 1rem; }
@@ -627,7 +649,12 @@
         <li><a href="/blog">Blog</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>
-      <span class="nav-icon">🌿</span>
+      
+      <!-- Hamburger Menu Button (Mobile Only) -->
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
+        <span class="hamburger-icon">☰</span>
+        <span class="close-icon">✕</span>
+      </button>
     </div>
   </nav>
 
@@ -869,6 +896,49 @@
         }
       });
     }
+
+    // Hamburger menu functionality
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburgerBtn.addEventListener('click', () => {
+      // Toggle hamburger button active state
+      hamburgerBtn.classList.toggle('active');
+      
+      // Toggle mobile menu visibility
+      if (navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      } else {
+        navLinks.style.display = 'flex';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '72px';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = 'var(--green-dark)';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.padding = '2rem 1.2rem';
+        navLinks.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+        navLinks.style.gap = '1.5rem';
+        navLinks.style.alignItems = 'center';
+      }
+    });
+
+    // Close menu when clicking on a link
+    const navItems = document.querySelectorAll('.nav-links a');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        hamburgerBtn.classList.remove('active');
+        navLinks.style.display = 'none';
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!hamburgerBtn.contains(e.target) && !navLinks.contains(e.target)) {
+        hamburgerBtn.classList.remove('active');
+        navLinks.style.display = 'none';
+      }
+    });
   </script>
 
 </body>
