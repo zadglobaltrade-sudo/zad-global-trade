@@ -1170,7 +1170,11 @@
           <img
             src="/images/about-produce.jpg"
             alt="Fresh pomegranates from Zad Global Trade"
-            onerror="this.style.background='#2D6A4F'; this.style.height='480px'; this.removeAttribute('src')"
+            loading="lazy"
+            decoding="async"
+            style="transition: opacity 0.3s ease; box-shadow: 0 8px 32px rgba(0,0,0,0.1); border-radius: 12px;"
+            onload="this.style.opacity='1';"
+            onerror="this.style.background='linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%)'; this.style.height='480px'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='white'; this.style.fontSize='1.2rem'; this.style.fontFamily='Poppins, sans-serif'; this.style.fontWeight='500'; this.innerHTML='<span>Image Temporarily Unavailable</span>'; this.removeAttribute('src')"
           />
           <div class="about-image-caption">Tradition meets<br/>Modern Commerce.</div>
         </div>
