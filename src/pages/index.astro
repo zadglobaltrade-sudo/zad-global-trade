@@ -134,6 +134,12 @@
       padding: 0.5rem;
     }
 
+    .mobile-menu-toggle { display: none; }
+
+    @media (max-width: 768px) {
+      .mobile-menu-toggle { display: block; }
+    }
+
     /* ─── HERO ─── */
     .hero {
       position: relative;
@@ -1046,6 +1052,25 @@
       .mobile-menu-toggle {
         display: block;
         z-index: 101;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: color 0.2s ease;
+      }
+      
+      .mobile-menu-toggle:hover {
+        color: var(--gold);
+      }
+      
+      .mobile-menu-toggle.active {
+        color: var(--gold);
       }
       
       .nav-icon {
@@ -1276,6 +1301,9 @@
         <li><a href="/blog">Blog</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
+        <span class="hamburger-icon">&#9776;</span>
+      </button>
     </div>
   </nav>
 
@@ -1599,6 +1627,34 @@
     
     // Check initial scroll position
     updateNavbar();
+
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    function toggleMobileMenu() {
+      navLinks.classList.toggle('active');
+      mobileMenuToggle.classList.toggle('active');
+      
+      // Change button text
+      if (navLinks.classList.contains('active')) {
+        mobileMenuToggle.querySelector('.hamburger-icon').textContent = '×';
+      } else {
+        mobileMenuToggle.querySelector('.hamburger-icon').textContent = '≡';
+      }
+    }
+    
+    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    
+    // Close mobile menu when clicking on a link
+    const mobileNavLinks = document.querySelectorAll('.nav-links a');
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        mobileMenuToggle.classList.remove('active');
+        mobileMenuToggle.querySelector('.hamburger-icon').textContent = '≡';
+      });
+    });
 
     // Hero slider
     let currentSlide = 0;
