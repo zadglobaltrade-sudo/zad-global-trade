@@ -440,70 +440,6 @@ const remainingPosts = postsWithSlugs.filter(p => p.slug !== featuredPost?.slug)
       font-weight: 300;
     }
 
-    /* ─── HOW TO ADD BLOG ─── */
-    .howto-section {
-      background: var(--green-dark);
-      padding: 4rem 3rem;
-    }
-
-    .howto-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .howto-text h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      color: white;
-      margin-bottom: 0.8rem;
-      line-height: 1.25;
-    }
-
-    .howto-text p {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.55);
-      font-weight: 300;
-      line-height: 1.7;
-    }
-
-    .howto-steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .howto-step {
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 1.5rem;
-    }
-
-    .howto-step-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    .howto-step-title {
-      font-size: 0.82rem;
-      color: white;
-      font-weight: 600;
-      display: block;
-      margin-bottom: 0.4rem;
-    }
-
-    .howto-step-desc {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.45);
-      font-weight: 300;
-      line-height: 1.6;
-    }
-
     /* ─── FOOTER ─── */
     footer {
       background: var(--green-dark);
@@ -609,8 +545,6 @@ const remainingPosts = postsWithSlugs.filter(p => p.slug !== featuredPost?.slug)
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
-      .howto-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .howto-steps { grid-template-columns: repeat(3, 1fr); }
     }
 
     @media (max-width: 768px) {
@@ -623,8 +557,6 @@ const remainingPosts = postsWithSlugs.filter(p => p.slug !== featuredPost?.slug)
       .featured-body { padding: 1.5rem; border-left: 1px solid rgba(0,0,0,0.06); border-top: none; }
       .blog-section { padding: 2rem 1.2rem 4rem; }
       .blog-grid { grid-template-columns: 1fr; }
-      .howto-section { padding: 3rem 1.2rem; }
-      .howto-steps { grid-template-columns: 1fr; }
       .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
     }
   </style>
@@ -749,36 +681,6 @@ const remainingPosts = postsWithSlugs.filter(p => p.slug !== featuredPost?.slug)
         </div>
       )}
 
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       HOW TO ADD A BLOG POST
-       (Remove this section before going live)
-  ═══════════════════════════════════════ -->
-  <section class="howto-section">
-    <div class="howto-inner">
-      <div class="howto-text">
-        <h2>Adding a New Blog Post</h2>
-        <p>Follow these 3 steps every time you want to publish a new article. No coding needed.</p>
-      </div>
-      <div class="howto-steps">
-        <div class="howto-step">
-          <span class="howto-step-num">01</span>
-          <span class="howto-step-title">Create a .md file</span>
-          <span class="howto-step-desc">Go to src/content/blog/ and create a new file like my-post-title.md</span>
-        </div>
-        <div class="howto-step">
-          <span class="howto-step-num">02</span>
-          <span class="howto-step-title">Add the header info</span>
-          <span class="howto-step-desc">Copy the top section from sample-post.md and update title, date, category and description.</span>
-        </div>
-        <div class="howto-step">
-          <span class="howto-step-num">03</span>
-          <span class="howto-step-title">Write your content</span>
-          <span class="howto-step-desc">Write below the --- line using normal text. Use ## for headings and ** for bold. Save and it appears automatically.</span>
-        </div>
-      </div>
     </div>
   </section>
 
