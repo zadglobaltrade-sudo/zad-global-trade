@@ -673,6 +673,81 @@
     .footer-badges { display: flex; gap: 1.5rem; }
     .footer-badge { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
 
+    /* ---- MOBILE MENU ---- */
+    .hamburger-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.2s;
+    }
+
+    .hamburger-btn:hover { color: var(--gold); }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--green-dark);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu-inner {
+      text-align: center;
+      position: relative;
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: -3rem;
+      right: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu-close:hover { color: var(--gold); }
+
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .mobile-nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .mobile-nav-links a:hover { color: var(--gold); }
+    .mobile-nav-links a.active { color: white; }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       .services-grid { grid-template-columns: repeat(2, 1fr); }
@@ -683,6 +758,7 @@
     @media (max-width: 768px) {
       #navbar { padding: 0 1.2rem; }
       .nav-links { display: none; }
+      .hamburger-btn { display: block; }
       .page-hero { padding: 7rem 1.2rem 3.5rem; }
       .intro-section { padding: 4rem 1.2rem; }
       .timeline-section { padding: 4rem 1.2rem; }
@@ -719,9 +795,30 @@
         <li><a href="/blog">Blog</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>
+      <button class="hamburger-btn" aria-label="Toggle menu">
+        <span class="hamburger-icon">☰</span>
+      </button>
       <span class="nav-icon">🌿</span>
     </div>
   </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <div class="mobile-menu-inner">
+      <button class="mobile-menu-close" aria-label="Close menu">
+        <span class="close-icon">✕</span>
+      </button>
+      <ul class="mobile-nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/services" class="active">Services</a></li>
+        <li><a href="/certifications">Certifications</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════
        PAGE HERO
@@ -1068,12 +1165,52 @@
     </div>
 
     <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Zad Global Trade. All rights reserved.</span>
+      <span class="footer-copy"> 2026 Zad Global Trade. All rights reserved.</span>
       <div class="footer-badges">
         <span class="footer-badge">APEDA Member</span>
       </div>
     </div>
   </footer>
+
+  <script>
+    // Mobile menu toggle
+    const hamburgerBtn = document.querySelector('.hamburger-btn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuClose = document.querySelector('.mobile-menu-close');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+
+    function openMenu() {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    hamburgerBtn.addEventListener('click', openMenu);
+    mobileMenuClose.addEventListener('click', closeMenu);
+
+    // Close menu when clicking on a navigation link
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close menu when clicking outside the menu content
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) {
+        closeMenu();
+      }
+    });
+
+    // Close menu with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+  </script>
 
 </body>
 </html>
