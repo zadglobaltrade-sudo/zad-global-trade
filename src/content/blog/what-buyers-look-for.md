@@ -40,7 +40,7 @@ Transparency builds the trust that turns a trial order into a long-term supply r
 
 Indian produce — especially Maharashtra pomegranates and bananas — is among the finest in the world. The quality is not in question. What buyers are evaluating is whether the exporter can deliver that quality reliably, compliantly and consistently.
 
-That is the standard Zad Global Trade holds itself to on every shipment.
+These are the standards Zad Global Trade tries to hold itself to on every shipment.
 
 ---
 
